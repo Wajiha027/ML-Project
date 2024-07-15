@@ -2,7 +2,7 @@ import os
 import sys
 from src.MLProject.exception import CustomException
 from src.MLProject.logger import logging
-import pandas as pandas
+import pandas as pd
 from dataclasses import dataclass 
 from src.MLProject.utils import read_sql_data
 from sklearn.model_selection import train_test_split
@@ -19,7 +19,7 @@ class DataIngestion:
 
     def initiate_data_ingestion(self):
         try:
-            df = read_sql_data()
+            df = pd.read_csv(os.path.join("notebook/data", "raw.csv"))
             logging.info("Reading completed from mysql database")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok = True)

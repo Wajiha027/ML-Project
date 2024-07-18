@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Arhamsoft/Desktop/MLProject/mlruns/0/1746688dc11048e88957f733f623a5ac/artifacts
+end_time: 1721283803918
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1746688dc11048e88957f733f623a5ac
+run_name: gifted-sow-948
+run_uuid: 1746688dc11048e88957f733f623a5ac
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1721283803836
+status: 4
+tags: []
+user_id: root

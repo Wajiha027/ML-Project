@@ -63,13 +63,14 @@ This file displays the prediction results after the form in `index.html` is subm
 2. **Create a virtual environment and activate it**:
   ```python -m venv venv
   source venv/Scripts/activate  # On Windows
-  source venv/bin/activate      # On Unix or MacOS
-```
+  source venv/bin/activate      # On Unix or MacOS 
+  ```
+
 3. **Install the dependencies**:
-  ```pip install -r requirements.txt
-```
+  ```pip install -r requirements.txt```
+
 4. **Run the Flask application**:
-  ```python app.py
+  ```python app.py```
 
 5. **Access the application**:
   Open your web browser and go to http://127.0.0.1:5000/ to access the home page. Fill out the form to get predictions for the math score based on the input data.
@@ -82,4 +83,4 @@ To visualize and manage the experiments, the project is integrated with DagsHub,
 
 ### Running MLflow Tracking
 You can run the MLflow tracking server using the following command:
-```mlflow ui
+```mlflow ui```

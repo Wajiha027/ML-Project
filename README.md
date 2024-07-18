@@ -58,16 +58,16 @@ This file displays the prediction results after the form in `index.html` is subm
 1. **Clone the repository**:
    ```bash
    git clone <repository-url>
-   cd Student-Performance-Analysis
+   cd Student-Performance-Analysis```
 
 2. **Create a virtual environment and activate it**:
   ```python -m venv venv
   source venv/Scripts/activate  # On Windows
   source venv/bin/activate      # On Unix or MacOS
-
+```
 3. **Install the dependencies**:
   ```pip install -r requirements.txt
-
+```
 4. **Run the Flask application**:
   ```python app.py
 

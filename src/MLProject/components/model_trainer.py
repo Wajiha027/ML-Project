@@ -1,14 +1,17 @@
 import os
 import sys
+import numpy as np
 from dataclasses import dataclass
-from catboost import CatBoostRegressor
+import mlflow
+from urllib.parse import urlparse
+import mlflow.sklearn
 from sklearn.ensemble import (
     AdaBoostRegressor,
     GradientBoostingRegressor,
     RandomForestRegressor,
 )
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
@@ -23,6 +26,13 @@ class ModelTrainerConfig:
 class ModelTrainer:
     def __init__(self):
         self.model_trainer_config=ModelTrainerConfig()
+
+    def eval_metrics(self, actual, pred):
+        rmse = np.sqrt(mean_squared_error(actual, pred))
+        mse = mean_squared_error(actual, pred)
+        mae = mean_absolute_error(actual, pred)
+        r2 = r2_score(actual, pred)
+        return rmse, mae, mse, r2
 
 
     def initiate_model_trainer(self,train_array,test_array):
@@ -87,6 +97,42 @@ class ModelTrainer:
                 list(model_report.values()).index(best_model_score)
             ]
             best_model = models[best_model_name]
+
+            print("This is the best model:")
+            print(best_model_name)
+
+            model_names = list(params.keys())
+
+            actual_model = ""
+            for model in model_names:
+                if best_model_name == model:
+                    actual_model = actual_model + model
+
+            best_params = params[actual_model]     
+
+            mlflow.set_registry_uri("https://dagshub.com/Wajiha027/Student-Performance-Analysis.mlflow")
+            tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
+
+            # ML Flow
+            with mlflow.start_run():
+
+                predicted_qualities = best_model.predict(X_test)
+                (rmse, mse, mae, r2) = self.eval_metrics(y_test, predicted_qualities)
+
+                mlflow.log_metric("rmse", rmse)
+                mlflow.log_metric("r2", r2)
+                mlflow.log_metric("mse", mse)
+                mlflow.log_metric("mae", mae)
+
+                # Model registry
+                if tracking_url_type_store != "file":
+
+                    #Register the model
+                    mlflow.sklearn.log_model(best_model, "model", registered_model_name=actual_model)
+
+                else:
+                    mlflow.sklearn.load_model(best_model, "model")
+            
 
             if best_model_score<0.6:
                 raise CustomException("No best model found")
